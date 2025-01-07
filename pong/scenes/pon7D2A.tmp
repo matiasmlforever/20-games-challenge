@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://4tdyd2dax7gi"]
+
+[ext_resource type="Texture2D" uid="uid://bpeqxcx405vnr" path="res://media/sprites/1x1pixel.png" id="1_v8exi"]
+[ext_resource type="Script" path="res://scenes/divider.gd" id="2_l1nno"]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(228, 216)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(9.53674e-07, 0.5)
+scale = Vector2(6.79966, 4.3178)
+zoom = Vector2(18.86, 18.86)
+
+[node name="MuroSuperior" type="Sprite2D" parent="."]
+position = Vector2(0, -15.5)
+scale = Vector2(60, 1)
+texture = ExtResource("1_v8exi")
+
+[node name="MuroInferior" type="Sprite2D" parent="."]
+position = Vector2(0, 16.5)
+scale = Vector2(60, 1)
+texture = ExtResource("1_v8exi")
+
+[node name="divider" type="Container" parent="."]
+offset_top = -15.0
+offset_right = 40.0
+offset_bottom = 25.0
+script = ExtResource("2_l1nno")
+
+[node name="pixel" type="Sprite2D" parent="divider"]
+texture = ExtResource("1_v8exi")
