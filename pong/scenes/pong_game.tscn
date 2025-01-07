@@ -1,24 +1,52 @@
-[gd_scene load_steps=3 format=3 uid="uid://4tdyd2dax7gi"]
+[gd_scene load_steps=10 format=3 uid="uid://4tdyd2dax7gi"]
 
 [ext_resource type="Texture2D" uid="uid://bpeqxcx405vnr" path="res://media/sprites/1x1pixel.png" id="1_v8exi"]
 [ext_resource type="Script" path="res://scenes/divider.gd" id="2_l1nno"]
+[ext_resource type="Script" path="res://scenes/paddle_left.gd" id="3_h5pfs"]
+[ext_resource type="Script" path="res://scenes/paddle_right.gd" id="4_xyb1y"]
+[ext_resource type="Script" path="res://scenes/ball.gd" id="5_evv5c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48dc8"]
+size = Vector2(1, 1.19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swgc4"]
+size = Vector2(1, 1.19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12lf2"]
+size = Vector2(1, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wtff0"]
+radius = 1.0
 
 [node name="Node2D" type="Node2D"]
-position = Vector2(228, 216)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(9.53674e-07, 0.5)
 scale = Vector2(6.79966, 4.3178)
 zoom = Vector2(18.86, 18.86)
 
-[node name="MuroSuperior" type="Sprite2D" parent="."]
+[node name="MuroSuperiorCollisionArea" type="Area2D" parent="."]
 position = Vector2(0, -15.5)
 scale = Vector2(60, 1)
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MuroSuperiorCollisionArea"]
+shape = SubResource("RectangleShape2D_48dc8")
+
+[node name="MuroSuperior" type="Sprite2D" parent="MuroSuperiorCollisionArea"]
 texture = ExtResource("1_v8exi")
 
-[node name="MuroInferior" type="Sprite2D" parent="."]
-position = Vector2(0, 16.5)
+[node name="MuroInferiorCollisionArea" type="Area2D" parent="."]
+position = Vector2(0, 17)
 scale = Vector2(60, 1)
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MuroInferiorCollisionArea"]
+shape = SubResource("RectangleShape2D_swgc4")
+
+[node name="MuroInferior" type="Sprite2D" parent="MuroInferiorCollisionArea"]
 texture = ExtResource("1_v8exi")
 
 [node name="divider" type="Container" parent="."]
@@ -29,3 +57,41 @@ script = ExtResource("2_l1nno")
 
 [node name="pixel" type="Sprite2D" parent="divider"]
 texture = ExtResource("1_v8exi")
+
+[node name="PaddleLeftArea" type="Area2D" parent="." groups=["paddles"]]
+position = Vector2(-29, 0)
+monitoring = false
+script = ExtResource("3_h5pfs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleLeftArea"]
+shape = SubResource("RectangleShape2D_12lf2")
+
+[node name="PaddleRight" type="Sprite2D" parent="PaddleLeftArea"]
+scale = Vector2(1, 4.44)
+texture = ExtResource("1_v8exi")
+
+[node name="PaddleRightArea" type="Area2D" parent="." groups=["paddles"]]
+position = Vector2(29, 0)
+monitoring = false
+script = ExtResource("4_xyb1y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleRightArea"]
+position = Vector2(0.25, 0)
+shape = SubResource("RectangleShape2D_12lf2")
+
+[node name="PaddleRight" type="Sprite2D" parent="PaddleRightArea"]
+scale = Vector2(1, 4.44)
+texture = ExtResource("1_v8exi")
+
+[node name="BallArea" type="Area2D" parent="."]
+input_pickable = false
+monitorable = false
+script = ExtResource("5_evv5c")
+
+[node name="Sprite2D" type="Sprite2D" parent="BallArea"]
+texture = ExtResource("1_v8exi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BallArea"]
+shape = SubResource("CircleShape2D_wtff0")
+
+[connection signal="area_entered" from="BallArea" to="BallArea" method="_on_area_entered"]
