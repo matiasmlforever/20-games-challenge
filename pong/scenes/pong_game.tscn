@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://4tdyd2dax7gi"]
+[gd_scene load_steps=12 format=3 uid="uid://4tdyd2dax7gi"]
 
 [ext_resource type="Texture2D" uid="uid://bpeqxcx405vnr" path="res://media/sprites/1x1pixel.png" id="1_v8exi"]
 [ext_resource type="Script" path="res://scenes/divider.gd" id="2_l1nno"]
@@ -18,80 +18,141 @@ size = Vector2(1, 5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_wtff0"]
 radius = 1.0
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="GDScript" id="GDScript_mlx11"]
+script/source = "extends CanvasLayer
 
-[node name="Camera2D" type="Camera2D" parent="."]
+@onready var left_score_label = %LeftScore
+@onready var right_score_label = %RightScore
+
+var left_score = 0
+var right_score = 0
+
+
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_kilav"]
+font_size = 40
+
+[node name="Game" type="Node2D"]
+
+[node name="Level" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Level"]
 position = Vector2(9.53674e-07, 0.5)
 scale = Vector2(6.79966, 4.3178)
 zoom = Vector2(18.86, 18.86)
 
-[node name="MuroSuperiorCollisionArea" type="Area2D" parent="."]
+[node name="MuroSuperiorCollisionArea" type="Area2D" parent="Level"]
 position = Vector2(0, -15.5)
 scale = Vector2(60, 1)
 input_pickable = false
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MuroSuperiorCollisionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/MuroSuperiorCollisionArea"]
 shape = SubResource("RectangleShape2D_48dc8")
 
-[node name="MuroSuperior" type="Sprite2D" parent="MuroSuperiorCollisionArea"]
+[node name="MuroSuperior" type="Sprite2D" parent="Level/MuroSuperiorCollisionArea"]
 texture = ExtResource("1_v8exi")
 
-[node name="MuroInferiorCollisionArea" type="Area2D" parent="."]
+[node name="MuroInferiorCollisionArea" type="Area2D" parent="Level"]
 position = Vector2(0, 17)
 scale = Vector2(60, 1)
 input_pickable = false
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MuroInferiorCollisionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/MuroInferiorCollisionArea"]
 shape = SubResource("RectangleShape2D_swgc4")
 
-[node name="MuroInferior" type="Sprite2D" parent="MuroInferiorCollisionArea"]
+[node name="MuroInferior" type="Sprite2D" parent="Level/MuroInferiorCollisionArea"]
 texture = ExtResource("1_v8exi")
 
-[node name="divider" type="Container" parent="."]
+[node name="divider" type="Container" parent="Level"]
 offset_top = -15.0
 offset_right = 40.0
 offset_bottom = 25.0
 script = ExtResource("2_l1nno")
+metadata/_edit_use_anchors_ = true
 
-[node name="pixel" type="Sprite2D" parent="divider"]
+[node name="pixel" type="Sprite2D" parent="Level/divider"]
 texture = ExtResource("1_v8exi")
 
-[node name="PaddleLeftArea" type="Area2D" parent="." groups=["paddles"]]
+[node name="PaddleLeftArea" type="Area2D" parent="Level" groups=["paddles"]]
 position = Vector2(-29, 0)
 monitoring = false
 script = ExtResource("3_h5pfs")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleLeftArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/PaddleLeftArea"]
 shape = SubResource("RectangleShape2D_12lf2")
 
-[node name="PaddleRight" type="Sprite2D" parent="PaddleLeftArea"]
+[node name="PaddleRight" type="Sprite2D" parent="Level/PaddleLeftArea"]
 scale = Vector2(1, 4.44)
 texture = ExtResource("1_v8exi")
 
-[node name="PaddleRightArea" type="Area2D" parent="." groups=["paddles"]]
+[node name="PaddleRightArea" type="Area2D" parent="Level" groups=["paddles"]]
 position = Vector2(29, 0)
 monitoring = false
 script = ExtResource("4_xyb1y")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleRightArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/PaddleRightArea"]
 position = Vector2(0.25, 0)
 shape = SubResource("RectangleShape2D_12lf2")
 
-[node name="PaddleRight" type="Sprite2D" parent="PaddleRightArea"]
+[node name="PaddleRight" type="Sprite2D" parent="Level/PaddleRightArea"]
 scale = Vector2(1, 4.44)
 texture = ExtResource("1_v8exi")
 
-[node name="BallArea" type="Area2D" parent="."]
+[node name="BallArea" type="Area2D" parent="Level"]
 input_pickable = false
 monitorable = false
 script = ExtResource("5_evv5c")
 
-[node name="Sprite2D" type="Sprite2D" parent="BallArea"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/BallArea"]
 texture = ExtResource("1_v8exi")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BallArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/BallArea"]
 shape = SubResource("CircleShape2D_wtff0")
 
-[connection signal="area_entered" from="BallArea" to="BallArea" method="_on_area_entered"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = SubResource("GDScript_mlx11")
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margenizador" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.0
+offset_right = 34.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 30
+
+[node name="HorizontalLabels" type="HBoxContainer" parent="CanvasLayer/Control/Margenizador"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="LeftScore" type="Label" parent="CanvasLayer/Control/Margenizador/HorizontalLabels"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0
+"
+label_settings = SubResource("LabelSettings_kilav")
+
+[node name="RightScore" type="Label" parent="CanvasLayer/Control/Margenizador/HorizontalLabels"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0"
+label_settings = SubResource("LabelSettings_kilav")
+
+[connection signal="area_entered" from="Level/BallArea" to="Level/BallArea" method="_on_area_entered"]
