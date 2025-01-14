@@ -27,7 +27,13 @@ script/source = "extends CanvasLayer
 var left_score = 0
 var right_score = 0
 
-
+func score_one(scorer: String) -> void:
+	if scorer == \"left_player\":
+		left_score =+ 1
+		left_score_label.text = str(left_score) 
+	else:
+		right_score =+ 1
+		right_score_label.text = str(right_score) 
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_kilav"]
@@ -143,8 +149,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-text = "0
-"
+text = "0"
 label_settings = SubResource("LabelSettings_kilav")
 
 [node name="RightScore" type="Label" parent="CanvasLayer/Control/Margenizador/HorizontalLabels"]
@@ -156,3 +161,4 @@ text = "0"
 label_settings = SubResource("LabelSettings_kilav")
 
 [connection signal="area_entered" from="Level/BallArea" to="Level/BallArea" method="_on_area_entered"]
+[connection signal="mete_gol" from="Level/BallArea" to="CanvasLayer" method="score_one"]

@@ -1,11 +1,12 @@
 extends "res://base_paddle.gd"
+
 # Variables
 @export var initial_speed: float = 6  # Ball speed in pixels per second
 @export var speed_increase: float = 2.0  # Speed increase after each bounce
 var direction: Vector2 = Vector2.ZERO  # Direction of the ball's movement
 
 func _ready() -> void:
-	set_boundaries()
+	set_boundaries() # límites
 	set_starting_direction()
 	
 func set_starting_direction() -> void:
@@ -37,11 +38,8 @@ func check_boundaries() -> void:
 		reset_ball()
 
 func score(x: float) -> void:
-	var scorer = "right_player" if position.x > 0 else "left_player"
-	
-	
-	
-
+	var scorer = "left_player" if position.x > 0 else "right_player"
+	emit_signal("mete_gol", scorer)
 
 # Function to handle paddle collision response
 func on_paddle_collision() -> void:

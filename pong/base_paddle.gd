@@ -1,5 +1,7 @@
 extends Area2D
 
+signal mete_gol(String)
+
 # Variables
 @export var paddle_speed: float = 50
 @export var boundary_offset: float = 2.55
